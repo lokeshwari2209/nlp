@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: agriparliament-dashboard
+    runtime: python
+    plan: standard
+    buildCommand: pip install -r requirements.txt && python init_artifacts.py
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 180 app:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: LOG_LEVEL
+        value: INFO
